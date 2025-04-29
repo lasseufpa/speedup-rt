@@ -1,0 +1,18 @@
+== Scenario: Canyon 
+                 Our method Max. NMSE: 4.554671983805612 
+                 Our method Mean. NMSE: -75.91954317311442
+== Scenario: Canyon 
+                 Baseline Max. NMSE: 4.623127416476116 
+                 Baseline Mean. NMSE: -14.152369636628663
+== Scenario: Etoile 
+                 Our method Max. NMSE: 4.914145684368572 
+                 Our method Mean. NMSE: -67.26872343021778
+== Scenario: Etoile 
+                 Baseline Max. NMSE: 3.9302113254455286 
+                 Baseline Mean. NMSE: -8.532922243806803
+== Scenario: Munich 
+                 Our method Max. NMSE: 4.449215661447817 
+                 Our method Mean. NMSE: -56.38154705943215
+== Scenario: Munich 
+                 Baseline Max. NMSE: 5.564203613935554 
+                 Baseline Mean. NMSE: -1.4060720707901209
