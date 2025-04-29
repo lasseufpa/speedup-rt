@@ -12,7 +12,7 @@ The first step is to create the python environment with Conda, using the followi
 conda env create -f environment.yml
 ```
 
-### Instaling Modified Sionna 0.19
+### Installing Modified Sionna 0.19
 The current Sionna version does not return the ray phase, so this modification allow us to retrieve this information.
 ```bash
 pip install rtr/.
