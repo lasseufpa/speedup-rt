@@ -1,6 +1,7 @@
 # Accelerating Ray Tracing-Based Wireless Channels Generation for Real-Time Network Digital Twins
 
 ArXiv link: https://arxiv.org/abs/2504.09751
+
 Journal link: https://ieeexplore.ieee.org/document/11050957
 
 This repository contains the ARTS and the baseline related source code of the above mentioned paper.
@@ -101,13 +102,14 @@ export DRJIT_LIBLLVM_PATH=/usr/lib/llvm-18/lib/libLLVM.so
 ## Credits
 If you benefit from this work, please cite on your publications using:
 ```
-@misc{modesto2025acceleratingraytracingbasedwireless,
-      title={Accelerating Ray Tracing-Based Wireless Channels Generation for Real-Time Network Digital Twins}, 
-      author={Cláudio Modesto and Lucas Mozart and Pedro Batista and André Cavalcante and Aldebaro Klautau},
-      year={2025},
-      eprint={2504.09751},
-      archivePrefix={arXiv},
-      primaryClass={cs.NI},
-      url={https://arxiv.org/abs/2504.09751}, 
-}
+@ARTICLE{modesto2025,
+  author={Modesto, Cláudio and Mozart, Lucas and Batista, Pedro and Cavalcante, André and Klautau, Aldebaro},
+  journal={IEEE Open Journal of the Communications Society}, 
+  title={Accelerating Ray Tracing-Based Wireless Channels Generation for Real-Time Network Digital Twins}, 
+  year={2025},
+  volume={6},
+  number={},
+  pages={5464-5478},
+  doi={10.1109/OJCOMS.2025.3583202}}
+
 ```
