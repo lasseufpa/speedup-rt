@@ -5,7 +5,10 @@ Utilitary functions used across the experiments
 """
 
 import numpy as np
-from mimo_channel import get_narrow_band_ULA_MIMO_channel, get_DFT_operated_channel
+from mimo_channel import (get_narrow_band_ULA_MIMO_channel,
+                            get_narrow_band_UPA_MIMO_channel,
+                            get_DFT_operated_channel,
+                            get_wide_band_ULA_MIMO_channel)
 from sionna.channel import subcarrier_frequencies, cir_to_ofdm_channel
 from scipy.constants import Boltzmann  # 1.380649e-23 J.K^-1
 
@@ -18,8 +21,8 @@ def get_nmse(target, predicted, convert_linear=False, convert_db=False):
         target = np.array([pow(10, x/10) for x in target])
         predicted = np.array([pow(10, x/10) for x in predicted])
 
-    nmse = np.linalg.norm(np.array(target) - np.array(predicted), ord=2) ** 2 / (
-        np.linalg.norm(target, ord=2) ** 2)
+    nmse = np.linalg.norm(np.array(target) - np.array(predicted)) ** 2 / (
+        np.linalg.norm(target) ** 2)
 
     # Convert to DB
     if convert_db:
@@ -109,10 +112,37 @@ def find_equivalent_ray(method: str, known_samples, known_sample_index, n_terms:
 
         return known_samples
 
+def get_geometric_channel_UPA(data,
+    ula_parameters: dict,
+    split_channel_coeff: bool,
+    ):
+    
+    complex_gain = np.array(data[0])
+    AoA_az = np.real(np.array(data[1]))
+    AoA_ele = np.real(np.array(data[2]))
+    AoD_az = np.real(np.array(data[3]))
+    AoD_ele = np.real(np.array(data[4]))
+
+    if split_channel_coeff:
+        phase = np.real(np.array(data[5]))
+        mimo_channel = get_narrow_band_UPA_MIMO_channel(AoD_ele, AoD_az, AoA_ele,
+                                                        AoA_az, complex_gain, 
+                                            ula_parameters["n_tx_ant_x"], ula_parameters["n_tx_ant_y"],
+                                            ula_parameters["n_rx_ant_x"], ula_parameters["n_rx_ant_y"],
+                                            split_channel_coeff=True, path_phase=phase)
+    else:
+        mimo_channel = get_narrow_band_UPA_MIMO_channel(AoD_ele, AoD_az, AoA_ele,
+                                                        AoA_az, complex_gain,
+                                        ula_parameters["n_tx_ant_x"], ula_parameters["n_tx_ant_y"],
+                                        ula_parameters["n_rx_ant_x"], ula_parameters["n_rx_ant_y"],
+                                        split_channel_coeff=False)
+
+    return mimo_channel
+
+
 def get_geometric_channel_ULA(
     data,
-    number_Tx_antennas: int,
-    number_Rx_antennas: int,
+    ula_parameters: dict,
     normalized_distance: float,
     angle_with_array_normal: float,
     split_channel_coeff: bool,
@@ -126,22 +156,52 @@ def get_geometric_channel_ULA(
     if split_channel_coeff:
         phase = np.real(np.array(data[3]))
         mimo_channel = get_narrow_band_ULA_MIMO_channel(AoA_az, AoD_az,
-                                        complex_gain, number_Tx_antennas,
-                                        number_Rx_antennas, normalized_distance,
+                                        complex_gain, ula_parameters["n_tx_ant"],
+                                        ula_parameters["n_rx_ant"], normalized_distance,
                                         angle_with_array_normal, path_phase=phase,
                                         split_channel_coeff=True, random_phase=random_phase)
     else:
         mimo_channel = get_narrow_band_ULA_MIMO_channel(AoA_az, AoD_az,
-                                        complex_gain, number_Tx_antennas,
-                                        number_Rx_antennas, normalized_distance,
+                                        complex_gain, ula_parameters["n_tx_ant"],
+                                        ula_parameters["n_rx_ant"], normalized_distance,
                                         angle_with_array_normal)
+
+    return mimo_channel
+
+def get_geometric_channel_wb_ULA(
+    data,
+    ula_parameters: dict,
+    normalized_distance: float,
+    angle_with_array_normal: float,
+    split_channel_coeff
+    ):
+
+    complex_gain = np.array(data[0])
+    AoA_az = np.real(np.array(data[1]))
+    AoD_az = np.real(np.array(data[2]))
+    tau = np.real(np.array(data[3])) 
+    carrier_f = 2.14e9 # GHz
+
+    if split_channel_coeff:
+        mimo_channel = get_wide_band_ULA_MIMO_channel(AoA_az, AoD_az, complex_gain,
+                                    tau, carrier_f, ula_parameters["n_tx_ant"],
+                                    ula_parameters["n_rx_ant"], normalized_distance,
+                                    angle_with_array_normal,
+                                    split_channel_coeff=True)
+    else:
+        mimo_channel = get_wide_band_ULA_MIMO_channel(AoA_az, AoD_az, complex_gain,
+                            tau, carrier_f, ula_parameters["n_tx_ant"],
+                            ula_parameters["n_rx_ant"], normalized_distance,
+                            angle_with_array_normal)
 
     return mimo_channel
 
 def create_geometric_channels(
                             processed_data,
-                            n_tx_antennas: int,
-                            n_rx_antennas: int,
+                            antenna_pattern: str,
+                            channel_type: str,
+                            ula_parameters: dict,
+                            upa_parameters: dict,
                             normalized_distance: float,
                             angle_with_array_normal: float,
                             split_channel_coeff=False,
@@ -155,26 +215,55 @@ def create_geometric_channels(
     for run, _ in enumerate(processed_data):
         phase, complex_gain = [], []
         arr_azi, dep_azi = [], []
+        arr_ele, dep_ele = [], []
         tau = []
         for ray_id in range(len(processed_data[run])):
             complex_gain.append(processed_data[run][ray_id][0])
+            arr_ele.append(processed_data[run][ray_id][1])
             arr_azi.append(processed_data[run][ray_id][2])
+            dep_ele.append(processed_data[run][ray_id][3])
             dep_azi.append(processed_data[run][ray_id][4])
             phase.append(processed_data[run][ray_id][5])
             tau.append(processed_data[run][ray_id][6])
         # separate complex gain in complex amplitude and phase
-        if split_channel_coeff:
-            payload = [complex_gain, arr_azi, dep_azi, np.float32(phase)]
-        else:
-            payload = [complex_gain, arr_azi, dep_azi]
-        channel = get_geometric_channel_ULA(
-                                    payload, n_tx_antennas,
-                                    n_rx_antennas,
-                                    normalized_distance,
-                                    angle_with_array_normal,
-                                    split_channel_coeff,
-                                    random_phase)
-        wireless_channels.append(channel)
+
+        if antenna_pattern == "ula" and channel_type == 'nb':
+            if split_channel_coeff:
+                payload = [complex_gain, arr_azi, dep_azi, np.float32(phase)]
+            else:
+                payload = [complex_gain, arr_azi, dep_azi]
+            channel = get_geometric_channel_ULA(
+                                        payload, ula_parameters,
+                                        normalized_distance,
+                                        angle_with_array_normal,
+                                        split_channel_coeff,
+                                        random_phase)
+            wireless_channels.append(channel)
+        elif antenna_pattern == "upa" and channel_type == 'nb':
+            if split_channel_coeff:
+                payload = [complex_gain, arr_azi, arr_ele, dep_azi, dep_ele, np.float32(phase)]
+            else:
+                payload = [complex_gain, arr_azi, arr_ele, dep_azi, dep_ele]
+            channel = get_geometric_channel_UPA(
+                                        payload, upa_parameters,
+                                        split_channel_coeff)
+            wireless_channels.append(channel)
+
+        elif antenna_pattern == "ula" and channel_type == "wb":
+            if split_channel_coeff:
+                payload = [complex_gain, arr_azi,
+                dep_azi, tau]
+            else:
+                payload = [complex_gain, arr_azi,
+                dep_azi, tau]                
+            channel = get_geometric_channel_wb_ULA(
+                                        payload,
+                                        ula_parameters,
+                                        normalized_distance,
+                                        angle_with_array_normal,
+                                        split_channel_coeff)
+            wireless_channels.append(channel)
+
 
     return wireless_channels
 
@@ -185,29 +274,25 @@ def create_ofdm_channels(processed_data,
     """
 
     # OFDM channel parameters
-    subcarrier_frequency = 15e3
-    fft_size = 48
+    subcarrier_frequency = 1.5e6
+    fft_size = 64
 
     # define the frequencies of the OFDM channel
     frequencies = subcarrier_frequencies(fft_size, subcarrier_frequency)
 
     wireless_channels = []
     for run, _ in enumerate(processed_data):
-        phase, complex_amplitude = [], []
+        complex_amplitude = []
         tau = []
         for ray_id in range(len(processed_data[run])):
             complex_amplitude.append(processed_data[run][ray_id][0][0, 0, 0, 0, 0, :])
-            phase.append(processed_data[run][ray_id][5])
             tau.append(processed_data[run][ray_id][6])
 
         complex_amplitude = np.array(complex_amplitude)
         complex_amplitude = np.reshape(complex_amplitude, (1, 1, 1, 1, 1,
                                                     complex_amplitude.shape[0], 1))
-        phase = np.array(phase)
-        phase = np.reshape(phase, (1, 1, 1, 1, 1, phase.shape[0], 1))
         tau = np.array(tau, np.float128)
-        tau = np.reshape(tau, (1, 1, 1, tau.shape[0]))
-
+        tau = np.reshape(tau, (1, 1, 1, tau.shape[0])).astype(np.float32)
         if split_channel_coeff:
             complex_gain = complex_amplitude
             complex_gain = np.array(complex_gain, np.complex64)
@@ -228,7 +313,7 @@ def get_bitrate(eigenvalues, bandwidth=100e6):
     Calculates the bit rate for all the possible beam pair combinations.
     """
     H_shape = eigenvalues.shape
-    ############################## Noise calculation ###########################
+    # Noise calculation
     standard_noise_temperature = 290  # Standard value is T_o = 290 Kelvin = ~16.85 °C
     device_noise_temperature = 298.15  # The adopted value can be T_e = 25 °C = 298.15 K
     noise_factor = 1 + (device_noise_temperature / standard_noise_temperature)
@@ -236,10 +321,9 @@ def get_bitrate(eigenvalues, bandwidth=100e6):
     noise_PSD = Boltzmann * standard_noise_temperature # in Joules, which is equal to W/Hz
     noise_power_dBW = Watts2dBW(noise_PSD * bandwidth) + noise_figure # noise_figure = around 100 dBW
     noise_power_watts = dBW2Watts(noise_power_dBW)
-    ############################## Interference calculation ###################
+    # Interference calculation
     interference_power_dBW = -80
     interference_power_watts = dBW2Watts(interference_power_dBW)
-    ###########################################################################
     SNR = (eigenvalues**2) / (noise_power_watts + interference_power_watts) # A1 used to flatten
     spectral_efficiency = np.sum(np.log2(1 + SNR))
     bit_rate = (bandwidth * spectral_efficiency)#.reshape(H_shape[0], H_shape[1])
