@@ -22,16 +22,16 @@ pip install rtr/.
 ```
 
 ## Single RT scenes augmentation (only one scenario) 
-### Matrix interpolation
+### Matrix interpolation (example)
 Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format.
 
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --channel geometric --plot-type cdf
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --channel nb --plot-type cdf --ant-pattern ula
 ```
 
-#### ARTS method
+#### ARTS method (example)
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --chanel geometric --plot-type cdf --n-terms 2
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --chanel nb --plot-type cdf --n-terms 2 --ant-pattern ula
 ```
 
 Where:
