@@ -43,7 +43,7 @@ parser.add_argument(
     type=str, required=True
 )
 parser.add_argument(
-    "--channel", "-c", help="type of channel [wb | nb]", 
+    "--channel", "-c", help="Type of channel [wb | nb]", 
     type=str, required=True
 )
 parser.add_argument(

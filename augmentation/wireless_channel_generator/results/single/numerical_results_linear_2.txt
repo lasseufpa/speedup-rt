@@ -1,0 +1,186 @@
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: nan 
+             Our method Mean NMSE: nan
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: nan 
+             Our method Mean NMSE: nan
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 8.856475830350526 
+             Our method Mean NMSE: 0.8380355245683727
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 4.554551554734089 
+             Our method Mean NMSE: -53.29931616627487
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 3.6799706865320307 
+             Our method Mean NMSE: -18.569890414090114
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 4.5546719838056156 
+             Our method Mean NMSE: -75.95688235370415
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 4.5546719838056156 
+             Our method Mean NMSE: -75.95688235370415
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 1.8258780305310047 
+             Our method Mean NMSE: -0.11284300422571908
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 1.8258780305310047 
+             Our method Mean NMSE: -0.11284300422571908
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 1.8258780305310047 
+             Our method Mean NMSE: -0.11284300422571908
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 1.8258780305310047 
+             Our method Mean NMSE: -0.11284300422571908
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: -9.736943511295461 
+             Our method Mean NMSE: -17.493514751882955
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: -9.736943511295461 
+             Our method Mean NMSE: -17.493514751882955
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: -9.736943511295461 
+             Our method Mean NMSE: -17.493514751882955
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: -10.793764241123679 
+             Our method Mean NMSE: -20.246384567908937
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.5882857612988 
+             Our method Mean NMSE: 2.072670201033453
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 18.981395589580366 
+             Our method Mean NMSE: 2.7501740244262436
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 17.571936486958016 
+             Our method Mean NMSE: -33.85838786826362
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 18.886527336638522 
+             Our method Mean NMSE: 3.0380228150712965
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88129331672026 
+             Our method Mean NMSE: 2.725446470362059
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88129331672026 
+             Our method Mean NMSE: 2.725446470362059
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88129331672026 
+             Our method Mean NMSE: 2.725446470362059
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88129331672026 
+             Our method Mean NMSE: 2.725446470362059
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88129331672026 
+             Our method Mean NMSE: 2.725446470362059
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.878868729584106 
+             Our method Mean NMSE: 2.6324318231083015
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.878868729584106 
+             Our method Mean NMSE: 2.6324318231083015
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.878868729584106 
+             Our method Mean NMSE: 2.6324318231083015
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.878868729584106 
+             Our method Mean NMSE: 2.6324318231083015
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.94372125623328 
+             Our method Mean NMSE: 2.2756879356058524
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 38.88130275954698 
+             Our method Mean NMSE: 2.725464997350274
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 31.427933668251484 
+             Our method Mean NMSE: 3.1017898845739853
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 31.427933668251484 
+             Our method Mean NMSE: 3.1017898845739853
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 13.850926184528504 
+             Our method Mean NMSE: 1.8930095938259088
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 12.388925700277905 
+             Our method Mean NMSE: 3.3896852369014505
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 4.5546719838056156 
+             Our method Mean NMSE: -75.95688235370415
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 4.5546719838056156 
+             Our method Mean NMSE: -75.95688235370415
+== CDF Channel Augmentation: 
+             Our method Max. NMSE: 4.5546719838056156 
+             Our method Mean NMSE: -75.95688235370415

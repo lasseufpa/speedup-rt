@@ -1,6 +1,7 @@
 """
 LASSE
 Created by Cláudio Modesto
+
 Script to generate the paper results considering a single RT scenarios
 """
 
@@ -8,11 +9,8 @@ import argparse
 import os
 import copy
 from process_data import RaytracingGenerator
-from interpolators import Interpolators
-
-from utils import (get_nmse, create_geometric_channels,
-                    create_ofdm_channels, shrink_dim_per_rx,
-                    expand_dim_per_rx)
+from poc_interpolators import Interpolators
+from utils import (get_nmse, create_geometric_channels, shrink_dim_per_rx)
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -21,9 +19,10 @@ if not os.path.isdir("results/single"):
     os.makedirs("results/single", exist_ok=True)
 
 
-# antennas specifications
-N_TX_ANTENNAS = 8
-N_RX_ANTENNAS = 4
+# Antenna specifications for ULA
+ula_parameters = {"n_tx_ant": 8, "n_rx_ant": 4}
+# Antenna specifications for UPA
+upa_parameters = {"n_tx_ant_x": 4, "n_tx_ant_y": 4, "n_rx_ant_x": 8, "n_rx_ant_y": 4}
 ANGLE_WITH_ARRAY_NORMAL = 0
 NORMALIZED_DISTANCE = 0.5
 
@@ -41,14 +40,13 @@ parser.add_argument(
     type=str, required=True
 )
 parser.add_argument(
-    "--channel", "-c", help="Type of channel to be used [ofdm | geometric]", 
+    "--channel", "-c", help="Type of channel [wb | nb]", 
     type=str, required=True
 )
 parser.add_argument(
     "--n-terms", "-n", help="Number of scenes between two samples to be generated", 
     type=int, required=True
 )
-
 
 args = parser.parse_args()
 
@@ -67,7 +65,16 @@ shrinked_orig_proc_data_w_split = shrink_dim_per_rx(
                                     copy.deepcopy(orig_processed_data_w_split))
 channel_nmse = [] # placeholder for final NMSE results
 
-# interpopolation
+# get ground truth mimo geometric channel
+orig_wireless_channels = create_geometric_channels(
+                                                shrinked_orig_proc_data,
+                                                args.ant_pattern,
+                                                args.channel_type,
+                                                ula_parameters,
+                                                upa_parameters,
+                                                NORMALIZED_DISTANCE,
+                                                ANGLE_WITH_ARRAY_NORMAL)
+
 N_TERMS = args.n_terms
 if args.interp_type in ("linear_2", "linear_n", "poly"):
     if args.interp_type == "linear_2":
@@ -76,54 +83,28 @@ if args.interp_type in ("linear_2", "linear_n", "poly"):
         aug_method = augmentor.linear_n_factor_interp
     elif args.interp_type == "poly":
         aug_method = augmentor.poly_interp
+    else:
+        aug_method = augmentor.linear_2_factor_interp
 
     # carry out the ray tracing interpolation process
-    interp_processed_data = aug_method(shrinked_orig_proc_data_w_split,
-                                        n_terms=N_TERMS)
-    if args.channel == "ofdm":
-        # get the ground truth wireless channels
-        orig_wireless_channels = create_ofdm_channels(
-                                        orig_processed_data)
+    interp_processed_data = aug_method(shrinked_orig_proc_data_w_split, n_terms=N_TERMS)
 
-        interp_processed_data = expand_dim_per_rx(copy.deepcopy(interp_processed_data))
-        # get mimo ofdm channel using interpolated mpc parameters
-        predicted_wireless_channels = create_ofdm_channels(interp_processed_data,
-                                                        split_channel_coeff=True)
-        # obtain channel nmse for each scene
-        channel_nmse = [get_nmse(np.squeeze(orig_wireless_channels[k]),
-                                np.squeeze(predicted_wireless_channels[k]),
+    # get mimo geometric channel using interpolated mpc parameters
+    predicted_wireless_channels = create_geometric_channels(interp_processed_data,
+                                                    args.ant_pattern,
+                                                    args.channel_type,
+                                                    ula_parameters,
+                                                    upa_parameters,
+                                                    NORMALIZED_DISTANCE,
+                                                    ANGLE_WITH_ARRAY_NORMAL,
+                                                    split_channel_coeff=True)
+
+    # obtain channel nmse for each scene
+    channel_nmse = [get_nmse(np.squeeze(orig_wireless_channels[k]),
+                            np.squeeze(predicted_wireless_channels[k]),
                             convert_db=True) for k in range(len(orig_wireless_channels))]
 
-    elif args.channel == "geometric":
-        orig_wireless_channels = create_geometric_channels(shrinked_orig_proc_data_w_split,
-                                                        N_TX_ANTENNAS,
-                                                        N_RX_ANTENNAS,
-                                                        NORMALIZED_DISTANCE,
-                                                        ANGLE_WITH_ARRAY_NORMAL,
-                                                        split_channel_coeff=True)
-
-        # get mimo geometric channel using interpolated mpc parameters
-        predicted_wireless_channels = create_geometric_channels(interp_processed_data,
-                                                        N_TX_ANTENNAS,
-                                                        N_RX_ANTENNAS,
-                                                        NORMALIZED_DISTANCE,
-                                                        ANGLE_WITH_ARRAY_NORMAL,
-                                                        split_channel_coeff=True,
-                                                        random_phase=False)
-
-        # obtain channel nmse for each scene
-
-        channel_nmse = [get_nmse(np.squeeze(orig_wireless_channels[k]),
-                                np.squeeze(predicted_wireless_channels[k]),
-                                convert_db=True) for k in range(len(orig_wireless_channels))]
-
 elif args.interp_type == "matrix":
-    orig_wireless_channels = create_geometric_channels(shrinked_orig_proc_data,
-                                                        N_TX_ANTENNAS,
-                                                        N_RX_ANTENNAS,
-                                                        NORMALIZED_DISTANCE,
-                                                        ANGLE_WITH_ARRAY_NORMAL)
-
     # carry out the matrix interpolation
     predicted_wireless_channels = augmentor.matrix_n_interp(orig_wireless_channels, n_terms=N_TERMS)
 
