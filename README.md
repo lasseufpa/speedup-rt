@@ -6,6 +6,9 @@ Journal link: https://ieeexplore.ieee.org/document/11050957
 
 This repository contains the ARTS and the baseline related source code of the above mentioned paper.
 
+## Introduction
+Ray tracing (RT) simulation is a widely used approach to enable modeling wireless channels in applications such as network digital twins. However, the computational cost to execute ray tracing (RT) is proportional to factors such as the level of detail used in the adopted 3D scenario. This work proposes RT pre-processing algorithms that aim at simplifying the 3D scene without distorting the channel, by reducing the scenario area and/or simplifying object shapes in the scenario. It also proposes a post-processing method that augments a set of RT results to achieve an improved time resolution. These methods enable using RT in applications that use a detailed and photorealistic 3D scenario while generating consistent wireless channels over time. Our simulation results with different urban scenarios scales, in terms of area and object details, demonstrate that it is possible to reduce the simulation time by more than 50% without compromising the accuracy of the multipath RT parameters, such as angles of arrival and departure, delay, phase, and path gain. 
+
 ## Getting started
 The first step is to create the python environment with Conda, using the following command:
 
@@ -23,7 +26,7 @@ pip install rtr/.
 
 ## Single RT scenes augmentation (only one scenario) 
 ### Matrix interpolation (example)
-Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format.
+Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format was chosen.
 
 ```bash
 python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --channel nb --plot-type cdf --ant-pattern ula
