@@ -1,0 +1,76 @@
+{
+    "tx_position": [
+        8.38372,
+        -35.8423,
+        14
+    ],
+    "rx_position": [
+        2000,
+        2000,
+        1.5
+    ],
+    "rx_position_square": [
+        20.7409,
+        -54.0822,
+        1.5
+    ],
+    "rx_position_linear": [
+        -10.8001,
+        10,
+        1.5
+    ],
+    "tx_orientation": [
+        6,
+        0.5,
+        0
+    ],
+    "rx_orientation": [
+        0,
+        0,
+        0
+    ],
+    "num_samples": 5e6,
+    "max_depth": 3,
+    "scene_frequency": 2.14e9,
+    "nTx": 1,
+    "nRx": 1,
+    "nTx_mimo": 8,
+    "nRx_mimo": 4,
+    "polarization": "cross",
+    "pattern": "iso",
+    "original_path_paper": "/mitsubas/modern_city_mitsuba/export.xml",
+    "original_path": "/mitsubas/original_mitsuba/export.xml",
+    "original_meshes_path": "/mitsubas/original_mitsuba/meshes",
+    "simplified_scenario_output_xml_path": "/mitsubas/simplifications/simplified_scenario/export.xml",
+    "simplified_scenario_output_folder_path": "/mitsubas/simplifications/simplified_scenario",
+    "simplified_scenario_output_meshes_path": "/mitsubas/simplifications/simplified_scenario/meshes",
+    "modern_city_scenario_cmap_cutout_path": "/mitsubas/simplifications/cmap_cutout/export.xml",
+    "modern_city_scenario_sphere_cutout_path": "/mitsubas/simplifications/sphere_cutout/export.xml",
+    "modern_city_scenario_vertex_simplification_path": "/mitsubas/simplifications/vertex/vertex_5/export.xml",
+    "modern_city_scenario_quadric_simplification_path": "/mitsubas/simplifications/quadric/quadric_0.3/export.xml",
+    "modern_city_scenario_rectangle_cutout_path": "/mitsubas/simplifications/rectangle_cutout/export.xml",
+    "modern_city_scenario_interactions_cutout_path": "/mitsubas/simplifications/interactions_cutout/export.xml",
+    "cmap_cell_size": 1.0,
+    "number_face_collapse": 15,
+    "iteration_space": 0.5, 
+    "modern_city_scenario_cmap_cutout_vertex_path": "/mitsubas/simplifications/vertex/cmap_cutout_5/export.xml",
+    "modern_city_scenario_sphere_cutout_vertex_path": "/mitsubas/simplifications/vertex/sphere_cutout_5/export.xml",
+    "modern_city_scenario_rectangle_cutout_vertex_path": "/mitsubas/simplifications/vertex/rectangle_cutout_5/export.xml",
+    "modern_city_scenario_interactions_cutout_vertex_path": "/mitsubas/simplifications/vertex/interactions_cutout_5/export.xml",
+    "modern_city_scenario_cmap_cutout_quadric_path": "/mitsubas/simplifications/quadric/cmap_cutout_0.3/export.xml",
+    "modern_city_scenario_sphere_cutout_quadric_path": "/mitsubas/simplifications/quadric/sphere_cutout_0.3/export.xml",
+    "modern_city_scenario_rectangle_cutout_quadric_path": "/mitsubas/simplifications/quadric/rectangle_cutout_0.3/export.xml",
+    "modern_city_scenario_interactions_cutout_quadric_path": "/mitsubas/simplifications/quadric/interactions_cutout_0.3/export.xml",
+    "modern_city_scenario_separated_linear_simplifications_cmap_cutout_path": "/mitsubas/simplifications/separated_simplifications/linear_path/cmap_cutout/export.xml",
+    "modern_city_scenario_separated_linear_simplifications_sphere_cutout_path": "/mitsubas/simplifications/separated_simplifications/linear_path/sphere_cutout/export.xml",
+    "modern_city_scenario_separated_linear_simplifications_vertex_simplification_path": "/mitsubas/simplifications/separated_simplifications/linear_path/vertex_5/export.xml",
+    "modern_city_scenario_separated_linear_simplifications_quadric_simplification_path": "/mitsubas/simplifications/separated_simplifications/linear_path/quadric_0.3/export.xml",
+    "modern_city_scenario_separated_linear_simplifications_rectangle_cutout_path": "/mitsubas/simplifications/separated_simplifications/linear_path/rectangle_cutout/export.xml",
+    "modern_city_scenario_separated_linear_simplifications_interactions_cutout_path": "/mitsubas/simplifications/separated_simplifications/linear_path/interactions_cutout/export.xml",
+    "modern_city_scenario_separated_square_simplifications_cmap_cutout_path": "/mitsubas/simplifications/separated_simplifications/square_path/cmap_cutout/export.xml",
+    "modern_city_scenario_separated_square_simplifications_sphere_cutout_path": "/mitsubas/simplifications/separated_simplifications/square_path/sphere_cutout/export.xml",
+    "modern_city_scenario_separated_square_simplifications_vertex_simplification_path": "/mitsubas/simplifications/separated_simplifications/square_path/vertex_5/export.xml",
+    "modern_city_scenario_separated_square_simplifications_quadric_simplification_path": "/mitsubas/simplifications/separated_simplifications/square_path/quadric_0.3/export.xml",
+    "modern_city_scenario_separated_square_simplifications_rectangle_cutout_path": "/mitsubas/simplifications/separated_simplifications/square_path/rectangle_cutout/export.xml",
+    "modern_city_scenario_separated_square_simplifications_interactions_cutout_path": "/mitsubas/simplifications/separated_simplifications/square_path/interactions_cutout/export.xml"
+}
