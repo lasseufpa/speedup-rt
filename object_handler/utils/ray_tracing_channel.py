@@ -7,7 +7,7 @@ import time
 import numpy as np
 
 # Mimo channel code import and avoid unnecessary TF logs
-sys.path.append("../2024-ivd-ray-interpolation/channel_augmentation")
+sys.path.append("../wireless_channel_generator/augmentation")
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 from mimo_channel import get_narrow_band_ULA_MIMO_channel 
@@ -38,17 +38,6 @@ def configure_scene_ray_tracing_parameters(scene_path: str) -> Scene:
                                   config["tx_orientation"][1],
                                   config["tx_orientation"][2]])
 
-    # Define the receiver
-    #rx = Receiver(
-    #    name="rx",
-    #    position=[config["rx_position"][0],
-    #              config["rx_position"][1],
-    #              config["rx_position"][2]],
-    #    orientation=[config["rx_orientation"][0],
-    #                 config["rx_orientation"][1],
-    #                 config["rx_orientation"][2]]
-    #)
-
     # Load scene
     scene = load_scene(scene_path)
 
@@ -77,9 +66,6 @@ def configure_scene_ray_tracing_parameters(scene_path: str) -> Scene:
 
     # Add transmitter instance to scene
     scene.add(tx)
-
-    # Add receiver instance to scene (New Position)
-    #scene.add(rx)
 
     # Adjusting some scene parameters
     scene.frequency = config["scene_frequency"]  # in Hz
