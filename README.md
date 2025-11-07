@@ -1,6 +1,6 @@
 # Accelerating Ray Tracing-Based Wireless Channels Generation for Real-Time Network Digital Twins
 
-This repository contains the ARTS and the baseline related source code of the above mentioned paper.
+This repository contains the ARTS, the baseline related source code for post-processing ray tracing outputs, and the post-processing techiniques to simplify 3D scenarios.
 
 ## :bulb: Introduction
 Ray tracing (RT) simulation is a widely used approach to enable modeling wireless channels in applications such as network digital twins. However, the computational cost to execute ray tracing (RT) is proportional to factors such as the level of detail used in the adopted 3D scenario. This work proposes RT pre-processing algorithms that aim at simplifying the 3D scene without distorting the channel, by reducing the scenario area and/or simplifying object shapes in the scenario. It also proposes a post-processing method that augments a set of RT results to achieve an improved time resolution. These methods enable using RT in applications that use a detailed and photorealistic 3D scenario while generating consistent wireless channels over time. Our simulation results with different urban scenarios scales, in terms of area and object details, demonstrate that it is possible to reduce the simulation time by more than 50% without compromising the accuracy of the multipath RT parameters, such as angles of arrival and departure, delay, phase, and path gain. 
@@ -87,13 +87,13 @@ Where:
 - `--delta`: The space, in meters, between each scene. 
 - `--scenes`: Number of scenes (snapshots).
 
-## 3D Objects Manipulator
+## :jigsaw: 3D Objects Manipulator
 
 The main module is the python script `mesh_cut_out_simplification.py`, which will actually perform simplification, whether mesh- or cut-out based simplification in any given scenario. 
 
 If you want to reproduce the simulation from the paper involving the simplifications, you must simply run one of the python scripts ``compute_ray_tracing_duration_*.py`` and ``nmse_simulations_*.py``. These scripts will download from the LASSE's Nextcloud the necessary files to achieve the results of the paper.
 
-## Reproducing the Results from the Paper
+### Reproducing the Results from the Paper
 
 As the names suggest, the scripts that will generate the ray tracing durations and NMSE values for both the mixed and solo versions are ``compute_ray_tracing_duration_*.py`` and ``nmse_simulations_*.py``. You just need to run either one, and it will download the Mitsubas files used in the paper and generate the respective results. For example (using the mixed cases):
 
@@ -156,7 +156,7 @@ python tradeoff_plot.py -s 2 -m 3
 
 This command will create a trade-off plot comparing the solo durations and nmses (indice 2) with the mixed durations and nmses (indice 3), and save it in the same folder as ``23tradeoff_plot.pdf``.
 
-### Scene Simplification
+### Scene simplification
 In order to run your own simplification scenario, the main code, i.e., the script that implements the simplification methods (mesh and cut-out) a 3D scenario should be executed. In this sense, you need to place your Mitsuba file in the folder `mitsubas/` with the following configuration (if necessary rename the files and folders):
 
 ```
