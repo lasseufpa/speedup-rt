@@ -1,9 +1,5 @@
 # Accelerating Ray Tracing-Based Wireless Channels Generation for Real-Time Network Digital Twins
 
-ArXiv link: https://arxiv.org/abs/2504.09751
-
-Journal link: https://ieeexplore.ieee.org/document/11050957
-
 This repository contains the ARTS and the baseline related source code of the above mentioned paper.
 
 ## :bulb: Introduction
@@ -14,10 +10,10 @@ Ray tracing (RT) simulation is a widely used approach to enable modeling wireles
 conda env create -f environment.yml
 ```
 
-### Installing modified Sionna 0.19
+### Installing modified Sionna 0.19.2
 The current Sionna version does not return the ray phase, so this modification allow us to retrieve this information.
 ```bash
-pip install rtr/.
+pip install ray_tracer/.
 
 ```
 
