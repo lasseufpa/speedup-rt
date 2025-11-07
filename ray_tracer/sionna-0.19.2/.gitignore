@@ -1,0 +1,23 @@
+.vscode/
+build/
+sionna.egg-info/
+__pycache__
+.ipynb_checkpoints
+.pytest_cache
+.python-version
+.DS_Store
+.buildinfo
+.Trash-1000
+.logs
+dev
+_build
+
+doc/build
+# Notebooks copied during doc build
+doc/source/examples/*.ipynb
+
+projects/
+nohup.out
+/*.obj
+dist/
+sionna/system/data
