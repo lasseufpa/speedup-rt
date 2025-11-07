@@ -1,7 +1,7 @@
-name: interpolation
+name: speedup
 channels:
-  - conda-forge
   - defaults
+  - conda-forge
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
 dependencies:
@@ -88,6 +88,7 @@ dependencies:
       - pyasn1==0.5.1
       - pyasn1-modules==0.3.0
       - pygments==2.17.2
+      - pymeshlab==2023.12.post2
       - pyparsing==3.1.2
       - python-dateutil==2.9.0.post0
       - pythreejs==2.4.2
@@ -99,19 +100,22 @@ dependencies:
       - six==1.16.0
       - stack-data==0.6.3
       - tables==3.8.0
+      - tdqm==0.0.1
       - tensorboard==2.13.0
       - tensorboard-data-server==0.7.2
       - tensorflow==2.13.1
       - tensorflow-estimator==2.13.0
       - tensorflow-io-gcs-filesystem==0.34.0
       - termcolor==2.4.0
+      - tqdm==4.67.1
       - traitlets==5.14.2
       - traittypes==0.2.1
       - typing-extensions==4.5.0
       - urllib3==2.2.1
       - wcwidth==0.2.13
       - werkzeug==3.0.1
+      - wget==3.2
       - widgetsnbextension==4.0.10
       - wrapt==1.16.0
       - zipp==3.18.1
-prefix: /home/claudio/miniconda3/envs/interpolation
+prefix: /home/claudio/miniconda3/envs/speedup
