@@ -87,7 +87,7 @@ Where:
 - `--delta`: The space, in meters, between each scene. 
 - `--scenes`: Number of scenes (snapshots).
 
-## :jigsaw: 3D Objects Manipulator
+## :jigsaw: Spatial object handler
 
 The main module is the python script `mesh_cut_out_simplification.py`, which will actually perform simplification, whether mesh- or cut-out based simplification in any given scenario. 
 
