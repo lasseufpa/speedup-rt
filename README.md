@@ -13,7 +13,7 @@ conda env create -f environment.yml
 ### Installing modified Sionna 0.19.2
 The current Sionna version does not return the ray phase, so this modification allow us to retrieve this information.
 ```bash
-pip install ray_tracer/.
+pip install ray_tracer/sionna-0.19.2
 
 ```
 
