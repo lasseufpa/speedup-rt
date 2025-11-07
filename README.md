@@ -25,17 +25,17 @@ pip install rtr/.
 The first step is to create the python environment with Conda, using the following command:
 
 
-## Single RT scenes augmentation (only one scenario) 
-### Matrix interpolation (example)
-Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format was chosen.
+## Single RT Scenes Augmentation (only one scenario) 
+### Matrix Interpolation
+Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format.
 
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --channel nb --plot-type cdf --ant-pattern ula
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --channel geometric --plot-type cdf
 ```
 
-#### ARTS method (example)
+#### ARTS Method
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --chanel nb --plot-type cdf --n-terms 2 --ant-pattern ula
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --chanel geometric --plot-type cdf --n-terms 2
 ```
 
 Where:
@@ -43,27 +43,31 @@ Where:
 - `--file`: Directory to multiple datasets.
 - `--interp-type`: Interpolation approach that should be used (`linear_2` | `linear_n` | `poly`).
 - `--plot-type`: Type of result plot to be generated, which can be cumulative distributed function or a histogram (`cdf` | `hist`).
-- `--channel`: Type of channel to be used (`geometric`, `ofdm`).
 - `--n-terms`: Number of terms to be generated between two scenes.
+- `--ant-pattern`: Type of antenna array (`ula` | `upa`)
+- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`)
 
-### Multiple RT scenes augmentation (multiple scenarios)
+### Multiple RT Scenes Augmentation (multiple scenarios)
 The following commands will generate the paper results (in format of CDF) considering three scenarios: Etoile, St. Canyon and Munich. In this case, we considered an RT augmentation with ARTS method and its baseline (matrix interpolation).
 
 Obs: The following command will replicate the experiment 1 from the paper. To replicate the experiment you need to change the number of terms to be generated.
-#### :jigsaw: ARTS Method
+#### ARTS Method
 ```bash
-python3 multiple_augmentation.py --dir ../data_generator/datasets/ --interp-type linear_2 --plot cdf --baseline
+python3 multiple_augmentation.py --dir ../data_generator/datasets/ --interp-type linear_2 --plot cdf --baseline --ant-pattern ula --channel-type nb
 ```
 Where:
 
 - `--dir`: Directory to multiple datasets.
-- `--interp-type`: Interpolation approach that should be used, which can be linear or polyomial (`linear_2` | `linear_n` | `poly`).
+- `--interp-type`: Interpolation approach that should be used (`linear_2` | `linear_n` | `poly`).
 - `--plot-type`: Type of result plot to be generated, which can be cumulative distributed function or a histogram (`cdf` | `hist`).
-- `--baseline`: Show baseline curves.
-- `--channel`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
-- `--ant-pattern`: Type of antenna pattern, which can be uniform linear array (ULA) or uniform planar array (UPA) (`ula` | `upa`).
+- `--baseline`: Show baseline plot curves.
+- `--ant-pattern`: Type of antenna array (`ula` | `upa`)
+- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`)
 
-## Dataset generator with Sionna RT
+## Dataset Generator with Sionna RT
+To generate different datasets, from the available in this repository, execute one of the following commands. This command will create a dataset considering the St. Canyon scenario with 1000 scenes, with the following characteristics:
+
+## :test_tube: Dataset generator with Sionna RT
 To generate different datasets, from the available in this repository, execute one of the following commands. This command will create a dataset considering the St. Canyon scenario with 1000 scenes, with the following characteristics:
 
 | Parameters          | Value |
@@ -71,11 +75,11 @@ To generate different datasets, from the available in this repository, execute o
 | Number of Tx          | 1 |
 | Number of Rx          | 1 |
 | Carrier Frequency     | 2.14 GHz |
-| Number of Tx antennas | 8 |
-| Number of Rx antennas | 4 |
+| Number of Tx antennas | 1 |
+| Number of Rx antennas | 1 |
 
 
-### :test_tube: Generating RT dataset
+### Generating RT dataset
 
 ```bash
 python3 mpc_generator.py --scenario canyon --delta 0.2 --scenes 1000
@@ -119,7 +123,7 @@ python nmse_simulations_original -pt 0
 or
 
 ```
-python compute_ray_tracing_duration_original -pt 1
+python compute_ray_tracing_duration_original.py -pt 1
 ```
 
 The ``-pt`` argument specifies the track used in the simulations: ``0`` corresponds to the linear track, and ``1`` to the square track.
@@ -171,20 +175,25 @@ original_mitsuba
 After that, you can run the `mesh_cut_out_simplification.py` to simplify your scene. For example:
 
 ```
-python mesh_cut_out_simplification -ms vertex -p 0.3 -ct sphere
+python mesh_cut_out_simplification.py --mesh vertex --parameter 0.3 -cut_type sphere
 ```
 
 which will use the vertex clustering mesh-simplification with the sphere cut-out simplification at same time in the scene. The output scenario will be placed in ``mitsubas/simplifications/simplified_scenario``. To define the configs parameters of the simulation, for example the RX and TX position, you need to change the ``tx_position`` and ``rx_position`` in the ``config.json``. Furthermore, to see the others methods you can use:
 
 ```
-python mesh_cut_out_simplification --help
+python mesh_cut_out_simplification.py --help
 ```
 
-This command will show the following flags:
+This help command will show the following flags:
+
+`--mesh`: Enables mesh simplification, which can be `vertex` or `quadric`
+
+`--parameter`: Parameter to define the level of simplification. Varies between 0 to 1. 1 is the highest level.
+
+`--cut_type`: Define the type of cut-out simplification. Can be `no_cut`, `rectangle`, `sphere`, `cmap`, `interactions`.
 
 
-
-### Roadmap
+### Roadmap to run your own simplification
 
 - [ ] Create a function to define custom materials.
 - [ ] Integrate this module with the interpolation and remove unnecessary python path modification.
