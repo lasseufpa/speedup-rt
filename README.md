@@ -6,10 +6,10 @@ Journal link: https://ieeexplore.ieee.org/document/11050957
 
 This repository contains the ARTS and the baseline related source code of the above mentioned paper.
 
-## Introduction
+## :bulb: Introduction
 Ray tracing (RT) simulation is a widely used approach to enable modeling wireless channels in applications such as network digital twins. However, the computational cost to execute ray tracing (RT) is proportional to factors such as the level of detail used in the adopted 3D scenario. This work proposes RT pre-processing algorithms that aim at simplifying the 3D scene without distorting the channel, by reducing the scenario area and/or simplifying object shapes in the scenario. It also proposes a post-processing method that augments a set of RT results to achieve an improved time resolution. These methods enable using RT in applications that use a detailed and photorealistic 3D scenario while generating consistent wireless channels over time. Our simulation results with different urban scenarios scales, in terms of area and object details, demonstrate that it is possible to reduce the simulation time by more than 50% without compromising the accuracy of the multipath RT parameters, such as angles of arrival and departure, delay, phase, and path gain. 
 
-## Installing Conda environment
+## :gear: Installing Conda environment
 ```bash
 conda env create -f environment.yml
 ```
@@ -50,7 +50,7 @@ Where:
 The following commands will generate the paper results (in format of CDF) considering three scenarios: Etoile, St. Canyon and Munich. In this case, we considered an RT augmentation with ARTS method and its baseline (matrix interpolation).
 
 Obs: The following command will replicate the experiment 1 from the paper. To replicate the experiment you need to change the number of terms to be generated.
-#### ARTS Method
+#### :jigsaw: ARTS Method
 ```bash
 python3 multiple_augmentation.py --dir ../data_generator/datasets/ --interp-type linear_2 --plot cdf --baseline
 ```
@@ -75,7 +75,7 @@ To generate different datasets, from the available in this repository, execute o
 | Number of Rx antennas | 4 |
 
 
-### Generating RT dataset
+### :test_tube: Generating RT dataset
 
 ```bash
 python3 mpc_generator.py --scenario canyon --delta 0.2 --scenes 1000
@@ -93,33 +93,7 @@ The main module is the python script `mesh_cut_out_simplification.py`, which wil
 
 If you want to reproduce the simulation from the paper involving the simplifications, you must simply run one of the python scripts ``compute_ray_tracing_duration_*.py`` and ``nmse_simulations_*.py``. These scripts will download from the LASSE's Nextcloud the necessary files to achieve the results of the paper.
 
-## Usage
-
-### Scene Simplification
-In order to run the main code, i.e., the script that implements the simplification methods (mesh and cut-out) a 3D scenario in the Mitsuba format will be necessary as our input. 
-First, you need to place your Mitsuba file in the folder `mitsubas/` with the following configuration (if necessary rename the files and folders):
-
-```
-original_mitsuba
-  ├── export.xml
-  └── meshes
-        └── ... .ply
-        └── ... .ply
-        └── ... .ply
-```
-
-After that, you can run the `mesh_cut_out_simplification.py` to simplify your scene. For example:
-
-```
-python mesh_cut_out_simplification -ms vertex -p 0.3 -ct sphere
-```
-
-which will use the vertex clustering mesh-simplification with the sphere cut-out simplification at same time in the scene. The output scenario will be placed in ``mitsubas/simplifications/simplified_scenario``. To define the configs parameters of the simulation, for example the RX and TX position, you need to change the ``tx_position`` and ``rx_position`` in the ``config.json``. Furthermore, to see the others methods you can use:
-```
-python mesh_cut_out_simplification --help
-```
-
-### Reproducing the Results from the Paper
+## Reproducing the Results from the Paper
 
 As the names suggest, the scripts that will generate the ray tracing durations and NMSE values for both the mixed and solo versions are ``compute_ray_tracing_duration_*.py`` and ``nmse_simulations_*.py``. You just need to run either one, and it will download the Mitsubas files used in the paper and generate the respective results. For example (using the mixed cases):
 
@@ -150,10 +124,10 @@ python compute_ray_tracing_duration_original -pt 1
 
 The ``-pt`` argument specifies the track used in the simulations: ``0`` corresponds to the linear track, and ``1`` to the square track.
 
-#### Note
-These last four scripts and mitsubas that they downloaded already have the logic for the tests embedded within them, e.g., the mitsubas are cut-out based on a certain TX and RX position, and the script will also perform actions at these position. Therefore, these scripts will not work for other personal 3D scenarios.  
 
-### Plots
+:information_source: These last four scripts and mitsubas that they downloaded already have the logic for the tests embedded within them, e.g., the mitsubas are cut-out based on a certain TX and RX position, and the script will also perform actions at these position. Therefore, these scripts will not work for other personal 3D scenarios.  
+
+### :bar_chart: Plots
 
 There is a script for plotting located in the ``simulations_results/``. After running the NMSE and ray tracing duration simulations, you will have two ``.npz`` files, one in each folder inside the ``npzs/`` **(you NEED to have both)**. Then, you can run the plot.py script as shown below:
 
@@ -182,6 +156,34 @@ python tradeoff_plot.py -s 2 -m 3
 
 This command will create a trade-off plot comparing the solo durations and nmses (indice 2) with the mixed durations and nmses (indice 3), and save it in the same folder as ``23tradeoff_plot.pdf``.
 
+### Scene Simplification
+In order to run your own simplification scenario, the main code, i.e., the script that implements the simplification methods (mesh and cut-out) a 3D scenario should be executed. In this sense, you need to place your Mitsuba file in the folder `mitsubas/` with the following configuration (if necessary rename the files and folders):
+
+```
+original_mitsuba
+  ├── export.xml
+  └── meshes
+        └── ... .ply
+        └── ... .ply
+        └── ... .ply
+```
+
+After that, you can run the `mesh_cut_out_simplification.py` to simplify your scene. For example:
+
+```
+python mesh_cut_out_simplification -ms vertex -p 0.3 -ct sphere
+```
+
+which will use the vertex clustering mesh-simplification with the sphere cut-out simplification at same time in the scene. The output scenario will be placed in ``mitsubas/simplifications/simplified_scenario``. To define the configs parameters of the simulation, for example the RX and TX position, you need to change the ``tx_position`` and ``rx_position`` in the ``config.json``. Furthermore, to see the others methods you can use:
+
+```
+python mesh_cut_out_simplification --help
+```
+
+This command will show the following flags:
+
+
+
 ### Roadmap
 
 - [ ] Create a function to define custom materials.
@@ -201,7 +203,14 @@ Try to install LLVM system packages, such as:
 sudo apt install llvm libllvm-dev
 ```
 
-After that, configure the required environment variable `DRJIT_LIBLLVM_PATH` with the correct version of LLVM package:
+And the `llvmlite` python package in your environment, using `pip`:
+
+```
+pip install llvmlite
+```
+
+
+After that, configure the required environment variable `DRJIT_LIBLLVM_PATH` with the correct version of LLVM package. In this case the correct version was 18:
 ```
 export DRJIT_LIBLLVM_PATH=/usr/lib/llvm-18/lib/libLLVM.so
 ```
