@@ -27,7 +27,7 @@ def configure_scene_ray_tracing_parameters(scene_path: str) -> Scene:
     the ray-tracing and estimate the channel. 
     """
     # Defining the custom materials
-    custom_material_asphalt = RadioMaterial("asphalt" ,5.72 ,5e-4)
+    custom_material_asphalt = RadioMaterial("asphalt", 5.72, 5e-4)
 
     # Defining a fixed-transmitter
     tx = Transmitter(name="tx",
@@ -312,7 +312,7 @@ def coverage_map_function(original_xml_path: str) -> Tuple[list, float]:
                     cm_cell_size=(cell_size, cell_size), # Grid size of coverage map cells in m
                     num_samples=int(config["num_samples"]))
 
-    power_levels = np.log10(cmap.as_tensor()) * 10 # Power in dB
+    power_levels = np.log10(cmap.path_gain) * 10 # Power in dB
     global_coordinates = cmap.cell_centers.numpy() # Coordinates in blender
 
     for x in range(cmap.num_cells_y): # Number of y_cells (cmap)
