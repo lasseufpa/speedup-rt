@@ -26,12 +26,12 @@ The first step is to create the python environment with Conda, using the followi
 Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format.
 
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --channel geometric --plot-type cdf
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --plot-type cdf --ant-pattern ula --channel-type nb
 ```
 
 #### ARTS Method
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --chanel geometric --plot-type cdf --n-terms 2
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --plot-type cdf --ant-pattern ula --n-terms 2 --channel-type nb
 ```
 
 Where:
@@ -40,8 +40,8 @@ Where:
 - `--interp-type`: Interpolation approach that should be used (`linear_2` | `linear_n` | `poly`).
 - `--plot-type`: Type of result plot to be generated, which can be cumulative distributed function or a histogram (`cdf` | `hist`).
 - `--n-terms`: Number of terms to be generated between two scenes.
-- `--ant-pattern`: Type of antenna array (`ula` | `upa`)
-- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`)
+- `--ant-pattern`: Type of antenna array (`ula` | `upa`).
+- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
 
 ### Multiple RT Scenes Augmentation (multiple scenarios)
 The following commands will generate the paper results (in format of CDF) considering three scenarios: Etoile, St. Canyon and Munich. In this case, we considered an RT augmentation with ARTS method and its baseline (matrix interpolation).
@@ -57,8 +57,8 @@ Where:
 - `--interp-type`: Interpolation approach that should be used (`linear_2` | `linear_n` | `poly`).
 - `--plot-type`: Type of result plot to be generated, which can be cumulative distributed function or a histogram (`cdf` | `hist`).
 - `--baseline`: Show baseline plot curves.
-- `--ant-pattern`: Type of antenna array (`ula` | `upa`)
-- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`)
+- `--ant-pattern`: Type of antenna array (`ula` | `upa`).
+- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
 
 ## Dataset Generator with Sionna RT
 To generate different datasets, from the available in this repository, execute one of the following commands. This command will create a dataset considering the St. Canyon scenario with 1000 scenes, with the following characteristics:
