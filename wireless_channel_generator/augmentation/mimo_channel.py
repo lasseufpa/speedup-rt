@@ -82,13 +82,6 @@ def get_narrow_band_ULA_MIMO_channel(departure_azi: float, arrival_azi: float, p
     power with the i-th precoder and the j-th
     combiner in the departing and arrival codebooks
     respectively
-
-    :param departure_angles: ((elevation angle, azimuth angle),) (L, 2) where L is the number of paths
-    :param arrival_angles: ((elevation angle, azimuth angle),) (L, 2) where L is the number of paths
-    :param p_gaindB: path gain (L, 1) in dB where L is the number of paths
-    :param number_Rx_antennas, number_Tx_antennas: number of antennas at Rx and Tx, respectively
-    :param pathPhases: in degrees, same dimension as path_gain
-    :return:
     """
     azimuths_tx = np.deg2rad(departure_azi)
     azimuths_rx = np.deg2rad(arrival_azi)
@@ -138,7 +131,7 @@ def get_wide_band_ULA_MIMO_channel(departure_azi: float, arrival_azi: float, pat
     m = np.shape(azimuths_tx)[0]  # number of rays
     n_fft = 64
     complex_path_gain = np.zeros((n_fft, m), dtype=complex)
-    bandwidth = 100e6
+    bandwidth = 100e6 # MHz
     freqs = np.linspace(carrier_f - bandwidth/2, carrier_f + bandwidth/2, n_fft)
 
     for k in range(n_fft):
