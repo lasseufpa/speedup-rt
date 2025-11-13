@@ -44,6 +44,10 @@ parser.add_argument(
     type=str, required=True
 )
 parser.add_argument(
+    "--ant-pattern", "-a", help="Antenna pattern [ula | upa]", 
+    type=str, required=True
+)
+parser.add_argument(
     "--n-terms", "-n", help="Number of scenes between two samples to be generated", 
     type=int, required=True
 )
@@ -53,7 +57,7 @@ args = parser.parse_args()
 data_generator = RaytracingGenerator(args.file)
 augmentor = Interpolators()
 OUTPUT_PATH_NAME = f"results/single/numerical_results_{args.interp_type}.txt"
-
+scenario_name = args.file.split("/")[-1].split("_")[0].title()
 
 # get ray tracing parameters
 orig_processed_data = data_generator.get_dataset()
@@ -69,7 +73,7 @@ channel_nmse = [] # placeholder for final NMSE results
 orig_wireless_channels = create_geometric_channels(
                                                 shrinked_orig_proc_data,
                                                 args.ant_pattern,
-                                                args.channel_type,
+                                                args.channel,
                                                 ula_parameters,
                                                 upa_parameters,
                                                 NORMALIZED_DISTANCE,
@@ -92,7 +96,7 @@ if args.interp_type in ("linear_2", "linear_n", "poly"):
     # get mimo geometric channel using interpolated mpc parameters
     predicted_wireless_channels = create_geometric_channels(interp_processed_data,
                                                     args.ant_pattern,
-                                                    args.channel_type,
+                                                    args.channel,
                                                     ula_parameters,
                                                     upa_parameters,
                                                     NORMALIZED_DISTANCE,
@@ -141,7 +145,14 @@ elif args.plot_type == "cdf":
             Our method Mean NMSE: {np.mean(sorted_nmse)}", file=f)
     cdf = np.arange(1, len(sorted_nmse) + 1) / len(sorted_nmse)
 
-    plt.plot(sorted_nmse, cdf, linewidth=2, linestyle="solid")
+    if args.ant_pattern == 'upa':
+        ANT_PATTERN = 'ura'
+    else:
+        ANT_PATTERN = 'ula'
+
+    plt.title(f"Channel augmentation in {ANT_PATTERN.upper()} MIMO {args.channel.upper()} channels ($U={args.n_terms}$)")
+    plt.plot(sorted_nmse, cdf, linewidth=2, linestyle="solid",
+                                label=f"Augmentation at {scenario_name}")
     plt.legend(fontsize=9)
     plt.ylabel("Cumulative probability", fontsize=15)
     plt.xlabel("$NMSE_{db}$", fontsize=15)
