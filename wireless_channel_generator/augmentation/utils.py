@@ -1,16 +1,13 @@
 """
-LASSE
 Created by Cláudio Modesto
 Utilitary functions used across the experiments
+LASSE
 """
 
 import numpy as np
-from mimo_channel import (get_narrow_band_ULA_MIMO_channel,
-                            get_narrow_band_UPA_MIMO_channel,
-                            get_DFT_operated_channel,
-                            get_wide_band_ULA_MIMO_channel)
-from sionna.channel import subcarrier_frequencies, cir_to_ofdm_channel
-from scipy.constants import Boltzmann  # 1.380649e-23 J.K^-1
+from mimo_channel import (get_nb_ula_mimo_channel,
+                            get_nb_upa_mimo_channel,
+                            get_wb_ula_mimo_channel)
 
 def get_nmse(target, predicted, convert_linear=False, convert_db=False):
     """
@@ -31,27 +28,12 @@ def get_nmse(target, predicted, convert_linear=False, convert_db=False):
     return nmse
 
 
-def dBW2Watts(dBW):
-    return np.float_power(10, (dBW / 10))
-
-
-def Watts2dBW(Watts):
-    return 10*np.log10(Watts)
-
-
-def get_correlation_F(target, predicted):
-    """
-    Get F correlation from channel matrix
-    """
-    # it is literally F, the clean code defensors will be mad, sorry :)
-    F = np.abs((np.array(predicted, np.complex128).conj().T * target))**2 / (
-        (np.linalg.norm(predicted)**2) * (np.linalg.norm(target)**2)
-    )
-
-    return F
-
-
 def find_equivalent_ray(method: str, known_samples, known_sample_index, n_terms: int):
+    """
+    Function to compare whether two rays are equivalent.
+    The supported methods are based on face identification,
+    time of arrival and interactions
+    """
     if method == "face_id":
         for scene in known_sample_index:
             for ray in range(len(known_samples[scene])):
@@ -72,7 +54,7 @@ def find_equivalent_ray(method: str, known_samples, known_sample_index, n_terms:
                             known_samples[scene + n_terms][ray] = known_samples[scene + n_terms][ray], known_samples[scene + n_terms][next_ray]
 
         return known_samples
-    
+
     elif method == "time_arrival":
         delta = 3e-9
         for scene in known_sample_index:
@@ -82,7 +64,7 @@ def find_equivalent_ray(method: str, known_samples, known_sample_index, n_terms:
                     next_tau = known_samples[scene+1][ray][6]
                 except Exception as e:
                     continue
-                
+
                 if np.abs(next_tau - current_tau) < delta:
                     continue
 
@@ -112,35 +94,45 @@ def find_equivalent_ray(method: str, known_samples, known_sample_index, n_terms:
 
         return known_samples
 
-def get_geometric_channel_UPA(data,
+def get_geometric_channel_upa(data,
     ula_parameters: dict,
     split_channel_coeff: bool,
     ):
+
+    """
+    Function to create MIMO UPA geometric channel matrix
+    from MPC paramters
+    """
     
     complex_gain = np.array(data[0])
-    AoA_az = np.real(np.array(data[1]))
-    AoA_ele = np.real(np.array(data[2]))
-    AoD_az = np.real(np.array(data[3]))
-    AoD_ele = np.real(np.array(data[4]))
+    aoa_az = np.real(np.array(data[1]))
+    aoa_ele = np.real(np.array(data[2]))
+    aod_az = np.real(np.array(data[3]))
+    aod_ele = np.real(np.array(data[4]))
 
     if split_channel_coeff:
         phase = np.real(np.array(data[5]))
-        mimo_channel = get_narrow_band_UPA_MIMO_channel(AoD_ele, AoD_az, AoA_ele,
-                                                        AoA_az, complex_gain, 
-                                            ula_parameters["n_tx_ant_x"], ula_parameters["n_tx_ant_y"],
-                                            ula_parameters["n_rx_ant_x"], ula_parameters["n_rx_ant_y"],
-                                            split_channel_coeff=True, path_phase=phase)
+        mimo_channel = get_nb_upa_mimo_channel(aod_ele, aod_az, aoa_ele,
+                                            aoa_az, complex_gain,
+                                            ula_parameters["n_tx_ant_x"],
+                                            ula_parameters["n_tx_ant_y"],
+                                            ula_parameters["n_rx_ant_x"],
+                                            ula_parameters["n_rx_ant_y"],
+                                            split_channel_coeff=True,
+                                            path_phase=phase)
     else:
-        mimo_channel = get_narrow_band_UPA_MIMO_channel(AoD_ele, AoD_az, AoA_ele,
-                                                        AoA_az, complex_gain,
-                                        ula_parameters["n_tx_ant_x"], ula_parameters["n_tx_ant_y"],
-                                        ula_parameters["n_rx_ant_x"], ula_parameters["n_rx_ant_y"],
+        mimo_channel = get_nb_upa_mimo_channel(aod_ele, aod_az, aoa_ele,
+                                                        aoa_az, complex_gain,
+                                        ula_parameters["n_tx_ant_x"],
+                                        ula_parameters["n_tx_ant_y"],
+                                        ula_parameters["n_rx_ant_x"],
+                                        ula_parameters["n_rx_ant_y"],
                                         split_channel_coeff=False)
 
     return mimo_channel
 
 
-def get_geometric_channel_ULA(
+def get_geometric_channel_ula(
     data,
     ula_parameters: dict,
     normalized_distance: float,
@@ -149,26 +141,31 @@ def get_geometric_channel_ULA(
     random_phase: bool
     ):
 
+    """
+    Function to create MIMO ULA geometric channel matrix
+    from MPC paramters
+    """
+
     complex_gain = np.array(data[0])
-    AoA_az = np.real(np.array(data[1]))
-    AoD_az = np.real(np.array(data[2]))
+    aoa_az = np.real(np.array(data[1]))
+    aod_az = np.real(np.array(data[2]))
 
     if split_channel_coeff:
         phase = np.real(np.array(data[3]))
-        mimo_channel = get_narrow_band_ULA_MIMO_channel(AoA_az, AoD_az,
+        mimo_channel = get_nb_ula_mimo_channel(aoa_az, aod_az,
                                         complex_gain, ula_parameters["n_tx_ant"],
                                         ula_parameters["n_rx_ant"], normalized_distance,
                                         angle_with_array_normal, path_phase=phase,
                                         split_channel_coeff=True, random_phase=random_phase)
     else:
-        mimo_channel = get_narrow_band_ULA_MIMO_channel(AoA_az, AoD_az,
+        mimo_channel = get_nb_ula_mimo_channel(aoa_az, aod_az,
                                         complex_gain, ula_parameters["n_tx_ant"],
                                         ula_parameters["n_rx_ant"], normalized_distance,
                                         angle_with_array_normal)
 
     return mimo_channel
 
-def get_geometric_channel_wb_ULA(
+def get_geometric_channel_wb_ula(
     data,
     ula_parameters: dict,
     normalized_distance: float,
@@ -176,20 +173,26 @@ def get_geometric_channel_wb_ULA(
     split_channel_coeff
     ):
 
+    """
+    Function to create wideband MIMO ULA 
+    geometric channel matrix from MPC paramters
+    """
+
+
     complex_gain = np.array(data[0])
-    AoA_az = np.real(np.array(data[1]))
-    AoD_az = np.real(np.array(data[2]))
-    tau = np.real(np.array(data[3])) 
+    aoa_az = np.real(np.array(data[1]))
+    aod_az = np.real(np.array(data[2]))
+    tau = np.real(np.array(data[3]))
     carrier_f = 2.14e9 # GHz
 
     if split_channel_coeff:
-        mimo_channel = get_wide_band_ULA_MIMO_channel(AoA_az, AoD_az, complex_gain,
+        mimo_channel = get_wb_ula_mimo_channel(aoa_az, aod_az, complex_gain,
                                     tau, carrier_f, ula_parameters["n_tx_ant"],
                                     ula_parameters["n_rx_ant"], normalized_distance,
                                     angle_with_array_normal,
                                     split_channel_coeff=True)
     else:
-        mimo_channel = get_wide_band_ULA_MIMO_channel(AoA_az, AoD_az, complex_gain,
+        mimo_channel = get_wb_ula_mimo_channel(aoa_az, aod_az, complex_gain,
                             tau, carrier_f, ula_parameters["n_tx_ant"],
                             ula_parameters["n_rx_ant"], normalized_distance,
                             angle_with_array_normal)
@@ -232,7 +235,7 @@ def create_geometric_channels(
                 payload = [complex_gain, arr_azi, dep_azi, np.float32(phase)]
             else:
                 payload = [complex_gain, arr_azi, dep_azi]
-            channel = get_geometric_channel_ULA(
+            channel = get_geometric_channel_ula(
                                         payload, ula_parameters,
                                         normalized_distance,
                                         angle_with_array_normal,
@@ -244,7 +247,7 @@ def create_geometric_channels(
                 payload = [complex_gain, arr_azi, arr_ele, dep_azi, dep_ele, np.float32(phase)]
             else:
                 payload = [complex_gain, arr_azi, arr_ele, dep_azi, dep_ele]
-            channel = get_geometric_channel_UPA(
+            channel = get_geometric_channel_upa(
                                         payload, upa_parameters,
                                         split_channel_coeff)
             wireless_channels.append(channel)
@@ -256,7 +259,7 @@ def create_geometric_channels(
             else:
                 payload = [complex_gain, arr_azi,
                 dep_azi, tau]                
-            channel = get_geometric_channel_wb_ULA(
+            channel = get_geometric_channel_wb_ula(
                                         payload,
                                         ula_parameters,
                                         normalized_distance,
@@ -266,89 +269,6 @@ def create_geometric_channels(
 
 
     return wireless_channels
-
-def create_ofdm_channels(processed_data,
-                        split_channel_coeff=False) -> list:
-    """
-    Create wireless OFDM channels from ray tracing parameters
-    """
-
-    # OFDM channel parameters
-    subcarrier_frequency = 1.5e6
-    fft_size = 64
-
-    # define the frequencies of the OFDM channel
-    frequencies = subcarrier_frequencies(fft_size, subcarrier_frequency)
-
-    wireless_channels = []
-    for run, _ in enumerate(processed_data):
-        complex_amplitude = []
-        tau = []
-        for ray_id in range(len(processed_data[run])):
-            complex_amplitude.append(processed_data[run][ray_id][0][0, 0, 0, 0, 0, :])
-            tau.append(processed_data[run][ray_id][6])
-
-        complex_amplitude = np.array(complex_amplitude)
-        complex_amplitude = np.reshape(complex_amplitude, (1, 1, 1, 1, 1,
-                                                    complex_amplitude.shape[0], 1))
-        tau = np.array(tau, np.float128)
-        tau = np.reshape(tau, (1, 1, 1, tau.shape[0])).astype(np.float32)
-        if split_channel_coeff:
-            complex_gain = complex_amplitude
-            complex_gain = np.array(complex_gain, np.complex64)
-        else:
-            complex_gain = np.array(complex_amplitude, np.complex64)
-
-        # Compute the frequency response of the channel at frequencies.
-        channel = cir_to_ofdm_channel(frequencies,
-                                    complex_gain,
-                                    tau,
-                                    normalize=True)
-        wireless_channels.append(channel)
-
-    return wireless_channels
-
-def get_bitrate(eigenvalues, bandwidth=100e6):
-    """
-    Calculates the bit rate for all the possible beam pair combinations.
-    """
-    H_shape = eigenvalues.shape
-    # Noise calculation
-    standard_noise_temperature = 290  # Standard value is T_o = 290 Kelvin = ~16.85 °C
-    device_noise_temperature = 298.15  # The adopted value can be T_e = 25 °C = 298.15 K
-    noise_factor = 1 + (device_noise_temperature / standard_noise_temperature)
-    noise_figure = -70 * np.log10(noise_factor)  # in dB
-    noise_PSD = Boltzmann * standard_noise_temperature # in Joules, which is equal to W/Hz
-    noise_power_dBW = Watts2dBW(noise_PSD * bandwidth) + noise_figure # noise_figure = around 100 dBW
-    noise_power_watts = dBW2Watts(noise_power_dBW)
-    # Interference calculation
-    interference_power_dBW = -80
-    interference_power_watts = dBW2Watts(interference_power_dBW)
-    SNR = (eigenvalues**2) / (noise_power_watts + interference_power_watts) # A1 used to flatten
-    spectral_efficiency = np.sum(np.log2(1 + SNR))
-    bit_rate = (bandwidth * spectral_efficiency)#.reshape(H_shape[0], H_shape[1])
-
-    return bit_rate
-
-def get_svd_matrix(H):
-    U, S, D = np.linalg.svd(H)
-
-    return S
-
-
-def equivalent_channel(H, n_tx_antennas, n_rx_antennas):
-    channel = get_DFT_operated_channel(H, n_tx_antennas, n_rx_antennas)
-
-    return channel
-
-
-def get_best_beam(equivalent_channel_magnitude):
-    best_beam = np.argwhere(
-        equivalent_channel_magnitude == np.max(equivalent_channel_magnitude)
-    )
-
-    return best_beam
-
 
 def shrink_dim_per_rx(processed_data):
     """
