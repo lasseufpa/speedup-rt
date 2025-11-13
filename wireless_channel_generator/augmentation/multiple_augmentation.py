@@ -154,7 +154,7 @@ avg_nmse_at_n = []
 for i in range(results_per_scenario.shape[1]):
     avg_nmse_at_n.append(list(np.average(results_per_scenario[:, i], axis=1)))
 
-with open(f"nmses_{args.channel}.npz", "wb") as f:
+with open(f"results/multiple/nmses_{args.channel}.npz", "wb") as f:
     np.savez(f, avg_nmse_at_n)
 
 if args.plot_type == "hist":
