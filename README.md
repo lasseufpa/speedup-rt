@@ -3,6 +3,8 @@
 This repository contains the ARTS, the baseline related source code for post-processing ray tracing outputs, and the post-processing techiniques to simplify 3D scenarios.
 
 ## :bulb: Introduction
+![graphical_abstract](https://ieeexplore.ieee.org/ielx8/8782661/10829557/11050957/graphical_abstract/ojcoms-gagraphic-3583202.jpg)
+
 Ray tracing (RT) simulation is a widely used approach to enable modeling wireless channels in applications such as network digital twins. However, the computational cost to execute ray tracing (RT) is proportional to factors such as the level of detail used in the adopted 3D scenario. This work proposes RT pre-processing algorithms that aim at simplifying the 3D scene without distorting the channel, by reducing the scenario area and/or simplifying object shapes in the scenario. It also proposes a post-processing method that augments a set of RT results to achieve an improved time resolution. These methods enable using RT in applications that use a detailed and photorealistic 3D scenario while generating consistent wireless channels over time. Our simulation results with different urban scenarios scales, in terms of area and object details, demonstrate that it is possible to reduce the simulation time by more than 50% without compromising the accuracy of the multipath RT parameters, such as angles of arrival and departure, delay, phase, and path gain. 
 
 ## :gear: Installing Conda environment
