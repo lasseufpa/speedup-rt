@@ -26,12 +26,12 @@ The first step is to create the python environment with Conda, using the followi
 Considering that your current directory is `channel_augmentation`, execute one of the following commands. These examples consider the St. Canyon scenario, a geometric 2D channel model and the final result if CDF plot format.
 
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --plot-type cdf --ant-pattern ula --channel-type nb
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type matrix --plot-type cdf --ant-pattern ula --channel nb
 ```
 
 #### ARTS Method
 ```bash
-python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --plot-type cdf --ant-pattern ula --n-terms 2 --channel-type nb
+python3 single_augmentation.py --file ../data_generator/datasets/canyon_based_sionna_dataset_1001_test_0.2.mb --interp-type linear_2 --plot-type cdf --ant-pattern ula --n-terms 2 --channel nb
 ```
 
 Where:
@@ -41,7 +41,7 @@ Where:
 - `--plot-type`: Type of result plot to be generated, which can be cumulative distributed function or a histogram (`cdf` | `hist`).
 - `--n-terms`: Number of terms to be generated between two scenes.
 - `--ant-pattern`: Type of antenna array (`ula` | `upa`).
-- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
+- `--channel`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
 
 ### Multiple RT Scenes Augmentation (multiple scenarios)
 The following commands will generate the paper results (in format of CDF) considering three scenarios: Etoile, St. Canyon and Munich. In this case, we considered an RT augmentation with ARTS method and its baseline (matrix interpolation).
@@ -49,7 +49,7 @@ The following commands will generate the paper results (in format of CDF) consid
 Obs: The following command will replicate the experiment 1 from the paper. To replicate the experiment you need to change the number of terms to be generated.
 #### ARTS Method
 ```bash
-python3 multiple_augmentation.py --dir ../data_generator/datasets/ --interp-type linear_2 --plot cdf --baseline --ant-pattern ula --channel-type nb
+python3 multiple_augmentation.py --dir ../data_generator/datasets/ --interp-type linear_2 --plot cdf --baseline --ant-pattern ula --channel nb
 ```
 Where:
 
@@ -58,7 +58,7 @@ Where:
 - `--plot-type`: Type of result plot to be generated, which can be cumulative distributed function or a histogram (`cdf` | `hist`).
 - `--baseline`: Show baseline plot curves.
 - `--ant-pattern`: Type of antenna array (`ula` | `upa`).
-- `--channel-type`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
+- `--channel`: Type of channel, which can be wideband or narrowband (`wb` | `nb`).
 
 ## Dataset Generator with Sionna RT
 To generate different datasets, from the available in this repository, execute one of the following commands. This command will create a dataset considering the St. Canyon scenario with 1000 scenes, with the following characteristics:
