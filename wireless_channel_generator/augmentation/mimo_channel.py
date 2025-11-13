@@ -16,7 +16,7 @@ def calc_omega(elevation_angles, azimuth_angles, normalized_ant_distance = 0.5):
 
     return np.matrix((omegax, omegay))
 
-def get_narrow_band_UPA_MIMO_channel(departure_ele, departure_azi, arrival_ele,
+def get_nb_upa_mimo_channel(departure_ele, departure_azi, arrival_ele,
                                      arrival_azi, path_gain,
                                     number_tx_antennas_x, number_tx_antennas_y,
                                     number_rx_antennas_x, number_rx_antennas_y,
@@ -66,16 +66,17 @@ def get_narrow_band_UPA_MIMO_channel(departure_ele, departure_azi, arrival_ele,
     return H
 
 
-def get_narrow_band_ULA_MIMO_channel(departure_azi: float, arrival_azi: float, path_gain,
+def get_nb_ula_mimo_channel(departure_azi: float, arrival_azi: float, path_gain,
                                 number_tx_antennas: int, number_rx_antennas: int,
                                 normalized_ant_distance=0.5, angle_with_array_normal=0,
                                 path_phase=None, split_channel_coeff=False, random_phase=False):
     """
     assumes one beam per antenna element
 
-    the first column will be the elevation angle, and the second column is the azimuth angle correspondingly.
-    p_gain will be a matrix size of (L, 1)
-    departure angle/arrival angle will be a matrix as size of (L, 2), where L is the number of paths
+    the first column will be the elevation angle, and the second column 
+    is the azimuth angle correspondingly.p_gain will be a matrix size of (L, 1)
+    departure angle/arrival angle will be a matrix as size of (L, 2), 
+    where L is the number of paths
 
     t1 will be a matrix of size (nt, nr), each
     element of index (i,j) will be the received
@@ -119,7 +120,7 @@ def get_narrow_band_ULA_MIMO_channel(departure_azi: float, arrival_azi: float, p
 
     return H
 
-def get_wide_band_ULA_MIMO_channel(departure_azi: float, arrival_azi: float, path_gain,
+def get_wb_ula_mimo_channel(departure_azi: float, arrival_azi: float, path_gain,
                                 tau, carrier_f, number_tx_antennas: int,
                                 number_rx_antennas: int, normalized_ant_distance=0.5,
                                 angle_with_array_normal=0, split_channel_coeff=False):
@@ -183,4 +184,3 @@ def array_factor_ula(n_ant_elements, theta, normalized_ant_distance=0.5, angle_w
         array_factor = np.exp(1j * 2 * np.pi * normalized_ant_distance * indices * np.cos(theta))
     array_factor = array_factor / np.sqrt(n_ant_elements)
     return array_factor  # normalize to have unitary norm
-
