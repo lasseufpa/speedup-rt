@@ -73,27 +73,27 @@ def generate_positions(initial_position: list, n_scenes: int,
     return positions
 
 if args.scenario == "canyon":
-    scene = load_scene("../rtr/sionna/rt/scenes/simple_street_canyon/simple_street_canyon.xml")
+    scene = load_scene("../../ray_tracer/sionna-0.19.2/sionna/rt/scenes/simple_street_canyon/simple_street_canyon.xml")
     cam_look_at=[0, 0, 0]
     cam_position=[0, 0, 150]
     tx_position = [-31, 10, 29]
     rx_position = [23.0, 1.1, 1.4]
     rx_interf_position = [-23.0, 4.1, 1.4]
 elif args.scenario == "etoile":
-    scene = load_scene("../rtr/sionna/rt/scenes/etoile/etoile.xml")
+    scene = load_scene("../../ray_tracer/sionna-0.19.2/rt/scenes/etoile/etoile.xml")
     cam_position = [94.1, 63.1, 300]
     cam_look_at = [94.1, 63.1, 0]
     tx_position = [58.1, 74.3, 2.4]
     rx_position = [130.1, 51.9, 1.4]
     rx_interf_position = [45, 51.9, 1.4]
 elif args.scenario == "munich":
-    scene = load_scene("../rtr/sionna/rt/scenes/munich/munich.xml")
+    scene = load_scene("../../ray_tracer/sionna-0.19.2/rt/scenes/munich/munich.xml")
     cam_position = [-250,250,150]
     cam_look_at = [-15,30,28]
     tx_position=[8.5, 21, 27]
     rx_position=[45, 25, 1.5]
 elif args.scenario == "modern":
-    scene = load_scene("../rtr/sionna/rt/scenes/modern_city/modern_city.xml")
+    scene = load_scene("../../ray_tracer/sionna-0.19.2/rt/scenes/modern_city/modern_city.xml")
     cam_position = [30, 20, 50]
     cam_look_at = [-10,20,28]
     tx_position=[8.38372,-35.8423, 14]
@@ -161,7 +161,8 @@ for scene_id in range(n_scenes):
     paths = scene.compute_paths(
                                 max_depth=3,
                                 num_samples=5e6,
-                                diffraction=True,
+                                diffraction=False,
+                                reflection=False,
                                 scattering=False)
     interactions = paths.vertices
 
@@ -245,5 +246,5 @@ for scene_id in range(n_scenes):
     scene.remove("rx")
     RENDER_TO_FILE = False
 
-with open(f"{args.scenario}_based_sionna_dataset_{n_scenes}_test_{args.delta}.mb", "wb") as f:
+with open(f"datasets/{args.scenario}_based_sionna_dataset_{n_scenes}_test_{args.delta}.mb", "wb") as f:
     pickle.dump(scene_data, f)
